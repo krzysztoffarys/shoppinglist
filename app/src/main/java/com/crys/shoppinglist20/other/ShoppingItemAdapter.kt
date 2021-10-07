@@ -5,9 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.crys.shoppinglist20.data.db.entities.ShoppingItem
 import com.crys.shoppinglist20.databinding.ShoppingItemBinding
+import com.crys.shoppinglist20.ui.ShoppingViewModel
 
 class ShoppingItemAdapter(
-    private var items: List<ShoppingItem>
+    var items: List<ShoppingItem>,
+    val viewModel: ShoppingViewModel
 ): RecyclerView.Adapter<ShoppingItemAdapter.ShoppingViewHolder>() {
     inner class ShoppingViewHolder(val binding: ShoppingItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -17,8 +19,27 @@ class ShoppingItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ShoppingViewHolder, position: Int) {
-        holder.binding.tvName.text = items[position].name
-        holder.binding.tvAmount.text = items[position].amount.toString()
+        val curShoppingItem = items[position]
+        holder.binding.tvName.text = curShoppingItem.name
+        holder.binding.tvAmount.text = curShoppingItem.amount.toString()
+
+
+        holder.binding.ivDelete.setOnClickListener {
+            viewModel.delete(curShoppingItem)
+        }
+
+        holder.binding.ivAdd.setOnClickListener {
+            curShoppingItem.amount++
+            viewModel.upsert(curShoppingItem)
+        }
+
+        holder.binding.ivRemove.setOnClickListener {
+            if(curShoppingItem.amount > 1) {
+                curShoppingItem.amount--
+                viewModel.upsert(curShoppingItem)
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {

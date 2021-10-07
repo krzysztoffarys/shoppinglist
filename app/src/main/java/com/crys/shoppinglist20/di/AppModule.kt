@@ -3,17 +3,18 @@ package com.crys.shoppinglist20.di
 import android.content.Context
 import androidx.room.Room
 import com.crys.shoppinglist20.data.db.ShoppingDatabase
+import com.crys.shoppinglist20.data.repositories.ShoppingRepository
 import com.crys.shoppinglist20.other.Constants.SHOPPING_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Singleton
@@ -26,5 +27,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideShoppingDao(db: ShoppingDatabase) = db.shoppingDao()
+
+    @Singleton
+    @Provides
+    fun provideRepository(db: ShoppingDatabase) = ShoppingRepository(db)
 
 }
