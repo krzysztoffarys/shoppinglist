@@ -31,6 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -55,10 +59,7 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 
     //lifecycle
-    def lifecycle_version = "2.4.0-rc01"
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
