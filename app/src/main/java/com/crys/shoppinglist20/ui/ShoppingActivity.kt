@@ -1,4 +1,4 @@
-package com.crys.shoppinglist20
+package com.crys.shoppinglist20.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
