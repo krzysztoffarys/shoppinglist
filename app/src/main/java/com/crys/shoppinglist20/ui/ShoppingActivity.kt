@@ -23,7 +23,7 @@ class ShoppingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val adapter = ShoppingItemAdapter(listOf(), viewModel)
+        val adapter = ShoppingItemAdapter(listOf(), viewModel, this)
 
         binding.rv.adapter = adapter
         binding.rv.layoutManager = LinearLayoutManager(this)
@@ -33,17 +33,16 @@ class ShoppingActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         })
 
-
         binding.fab.setOnClickListener {
             AddShoppingItemDialog(
                 this,
                 object : AddDialogListener {
                     override fun onAddButtonClicked(item: ShoppingItem) {
+                        item.url = viewModel.provideUrl(item.name)
                         viewModel.upsert(item)
                     }
                 }
             ).show()
         }
-
     }
 }

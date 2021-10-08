@@ -1,15 +1,19 @@
 package com.crys.shoppinglist20.other
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.crys.shoppinglist20.data.db.entities.ShoppingItem
 import com.crys.shoppinglist20.databinding.ShoppingItemBinding
 import com.crys.shoppinglist20.ui.ShoppingViewModel
+import timber.log.Timber
 
 class ShoppingItemAdapter(
     var items: List<ShoppingItem>,
-    val viewModel: ShoppingViewModel
+    private val viewModel: ShoppingViewModel,
+    val context: Context
 ): RecyclerView.Adapter<ShoppingItemAdapter.ShoppingViewHolder>() {
     inner class ShoppingViewHolder(val binding: ShoppingItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -39,7 +43,12 @@ class ShoppingItemAdapter(
                 viewModel.upsert(curShoppingItem)
             }
         }
-
+        Glide.with(context)
+            .load(curShoppingItem.url)
+            .centerCrop()
+            .into(holder.binding.ivItem)
+        holder.binding.ivItem
+        Timber.d("ShoppingItemUrl: ${curShoppingItem.url}")
     }
 
     override fun getItemCount(): Int {
